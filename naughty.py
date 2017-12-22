@@ -1,5 +1,6 @@
 import csv
 import json
+import sys
 
 naughty = 0;
 nice = 0;
@@ -22,8 +23,11 @@ json_file = open("infractions.json", 'r')
 json_data = json.load(json_file)
 json_file.close()
 
+output = csv.writer(sys.stdout)
+output.writerow(["NoN", "name", "coal", "infraction"])
+
 for person in json_data["infractions"]:
 	if person["name"] in just_the_naughty:
-		print("Naughty: {}\t\t Coal: {}".format(person["name"], len(person["coals"])))
+		output.writerow(("Naughty", person["name"], len(person["coals"]) ,person["title"]))
 	elif person["name"] in just_the_nice:
-		print("Nice: {}\t\t Coal: {}".format(person["name"], len(person["coals"])))
+		output.writerow(("Nice", person["name"], len(person["coals"]), person["title"]))
